@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  Currency Converter
 //
 //  Created by Sylvan Ash on 04/08/2020.
@@ -8,13 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setupSubviews()
     }
-
-
 }
 
+private extension MainViewController {
+    func setupSubviews() {
+        view.backgroundColor = .green
+    }
+}

@@ -15,6 +15,7 @@ class MainViewController: UIViewController {
     private weak var loadingView: LoadingView?
 
     private var pickerView: CurrencyPickerView?
+    private var shouldShowPickerview = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,7 +84,13 @@ private extension MainViewController {
     }
 
     @objc func chooseCurrencyTapped() {
-        showPickerView()
+        shouldShowPickerview = !shouldShowPickerview
+
+        if shouldShowPickerview {
+            showPickerView()
+        } else {
+            pickerView?.hide()
+        }
     }
 
     func toggleLoading(isLoading: Bool) {
@@ -95,7 +102,7 @@ private extension MainViewController {
         }
     }
 
-    private func showPickerView() {
+    func showPickerView() {
         if pickerView == nil {
             let pickerView = CurrencyPickerView()
             pickerView.translatesAutoresizingMaskIntoConstraints = false

@@ -22,7 +22,13 @@ class CurrencyPickerView: UIView {
     }
 
     func show(currencies: [String]) {
+        isHidden = false
         self.currencies = currencies
+        pickerView.reloadAllComponents()
+    }
+
+    func hide() {
+        isHidden = true
     }
 }
 

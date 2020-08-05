@@ -12,13 +12,17 @@ class CurrencyPickerView: UIView {
     private let pickerView = UIPickerView(frame: .zero)
     private var currencies: [String] = []
 
-    init(currencies: [String]) {
-        self.currencies = currencies
+    init() {
         super.init(frame: .zero)
+        setupSubviews()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func show(currencies: [String]) {
+        self.currencies = currencies
     }
 }
 

@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
     private let tableView = UITableView(frame: .zero, style: .plain)
     private weak var loadingView: LoadingView?
 
-    private var pickerView: UIPickerView?
+    private var pickerView: CurrencyPickerView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +94,29 @@ private extension MainViewController {
             loadingView = nil
         }
     }
+
+    private func showPickerView() {
+        if pickerView == nil {
+            let pickerView = CurrencyPickerView()
+            pickerView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(pickerView)
+
+            NSLayoutConstraint.activate([
+                pickerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                pickerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                pickerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                pickerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/3),
+            ])
+
+            self.pickerView = pickerView
+        }
+
+        var items: [String] = []
+        for i in 0...10 {
+            items.append("Item #\(i)")
+        }
+        pickerView?.show(currencies: items)
+    }
 }
 
 extension MainViewController: UITextFieldDelegate {
@@ -110,34 +133,5 @@ extension MainViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return UITableViewCell()
-    }
-}
-
-extension MainViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    private func showPickerView() {
-        let pickerView = UIPickerView()
-        pickerView.dataSource = self
-        pickerView.delegate = self
-        pickerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(pickerView)
-
-        NSLayoutConstraint.activate([
-            pickerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            pickerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            pickerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            pickerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/3),
-        ])
-    }
-
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 10
-    }
-
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "Item #\(row)"
     }
 }

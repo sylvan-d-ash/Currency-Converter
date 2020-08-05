@@ -12,6 +12,7 @@ class MainViewController: UIViewController {
     private let currencyButton = UIButton(type: .system)
     private let currencyTextfield = UITextField()
     private let tableView = UITableView(frame: .zero, style: .plain)
+    private weak var loadingView: LoadingView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +82,15 @@ private extension MainViewController {
 
     @objc func chooseCurrencyTapped() {
         //
+    }
+
+    func toggleLoading(isLoading: Bool) {
+        if isLoading {
+            loadingView = LoadingView(self.view).show()
+        } else {
+            loadingView?.terminate()
+            loadingView = nil
+        }
     }
 }
 

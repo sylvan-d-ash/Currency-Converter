@@ -44,6 +44,7 @@ private extension CurrencyPickerView {
         // - change background to white
         // - add top shadow
         // - separator line between done button and pickerview
+        // - animate display of the view
 
         backgroundColor = .clear
 

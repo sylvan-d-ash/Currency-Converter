@@ -14,6 +14,7 @@
 		5E659BD024D976B3004BF636 /* Currency_ConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E659BCF24D976B3004BF636 /* Currency_ConverterTests.swift */; };
 		5E659BDB24D976FE004BF636 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E659BDA24D976FE004BF636 /* MainViewController.swift */; };
 		5E659BDD24DAAFA4004BF636 /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E659BDC24DAAFA4004BF636 /* CurrencyCell.swift */; };
+		5E659BDF24DAB5A1004BF636 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E659BDE24DAB5A1004BF636 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		5E659BD124D976B3004BF636 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5E659BDA24D976FE004BF636 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		5E659BDC24DAAFA4004BF636 /* CurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCell.swift; sourceTree = "<group>"; };
+		5E659BDE24DAB5A1004BF636 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				5E659BC324D976B3004BF636 /* LaunchScreen.storyboard */,
 				5E659BC624D976B3004BF636 /* Info.plist */,
 				5E659BDA24D976FE004BF636 /* MainViewController.swift */,
+				5E659BDE24DAB5A1004BF636 /* LoadingView.swift */,
 				5E659BDC24DAAFA4004BF636 /* CurrencyCell.swift */,
 			);
 			path = "Currency Converter";
@@ -202,6 +205,7 @@
 				5E659BDD24DAAFA4004BF636 /* CurrencyCell.swift in Sources */,
 				5E659BDB24D976FE004BF636 /* MainViewController.swift in Sources */,
 				5E659BB924D976B1004BF636 /* AppDelegate.swift in Sources */,
+				5E659BDF24DAB5A1004BF636 /* LoadingView.swift in Sources */,
 				5E659BBB24D976B1004BF636 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

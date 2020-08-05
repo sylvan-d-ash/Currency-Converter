@@ -21,6 +21,11 @@ class CurrencyCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func update(with currency: (name: String, price: String)) {
+        nameLabel.text = currency.name
+        priceLabel.text = currency.price
+    }
 }
 
 private extension CurrencyCell {

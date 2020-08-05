@@ -17,6 +17,8 @@ class MainViewController: UIViewController {
     private var pickerView: CurrencyPickerView?
     private var shouldShowPickerview = false
 
+    var currencies: [String] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
@@ -42,6 +44,9 @@ private extension MainViewController {
         ])
 
         tableView.dataSource = self
+        tableView.separatorInset = .zero
+        tableView.tableFooterView = UIView()
+        tableView.rowHeight = 40
         tableView.register(CurrencyCell.self, forCellReuseIdentifier: "\(CurrencyCell.self)")
         container.addSubview(tableView)
 
@@ -93,6 +98,7 @@ private extension MainViewController {
     }
 
     @objc func chooseCurrencyTapped() {
+        guard currencies.count > 0 else { return }
         shouldShowPickerview = !shouldShowPickerview
 
         if shouldShowPickerview {
@@ -112,11 +118,17 @@ extension MainViewController: UITextFieldDelegate {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return currencies.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(CurrencyCell.self)", for: indexPath) as? CurrencyCell else {
+            return UITableViewCell()
+        }
+
+        let currency = currencies[indexPath.row]
+        cell.update(with: (currency, "\(indexPath).00"))
+        return cell
     }
 }
 
@@ -138,11 +150,7 @@ extension MainViewController: CurrencyPickerViewDelegate {
             self.pickerView = pickerView
         }
 
-        var items: [String] = []
-        for i in 0...10 {
-            items.append("Item #\(i)")
-        }
-        pickerView?.show(currencies: items)
+        pickerView?.show(currencies: currencies)
     }
 
     func didSelect(currency: String) {

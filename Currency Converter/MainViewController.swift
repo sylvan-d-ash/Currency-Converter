@@ -83,16 +83,6 @@ private extension MainViewController {
         ])
     }
 
-    @objc func chooseCurrencyTapped() {
-        shouldShowPickerview = !shouldShowPickerview
-
-        if shouldShowPickerview {
-            showPickerView()
-        } else {
-            pickerView?.hide()
-        }
-    }
-
     func toggleLoading(isLoading: Bool) {
         if isLoading {
             loadingView = LoadingView(self.view).show()
@@ -102,9 +92,39 @@ private extension MainViewController {
         }
     }
 
-    func showPickerView() {
+    @objc func chooseCurrencyTapped() {
+        shouldShowPickerview = !shouldShowPickerview
+
+        if shouldShowPickerview {
+            showPickerView()
+        } else {
+            pickerView?.hide()
+        }
+    }
+}
+
+extension MainViewController: UITextFieldDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(false)
+    }
+}
+
+extension MainViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+}
+
+extension MainViewController: CurrencyPickerViewDelegate {
+    private func showPickerView() {
         if pickerView == nil {
             let pickerView = CurrencyPickerView()
+            pickerView.delegate = self
             pickerView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(pickerView)
 
@@ -124,21 +144,9 @@ private extension MainViewController {
         }
         pickerView?.show(currencies: items)
     }
-}
 
-extension MainViewController: UITextFieldDelegate {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        view.endEditing(false)
-    }
-}
-
-extension MainViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+    func didSelect(currency: String) {
+        print(currency)
+        shouldShowPickerview = false
     }
 }

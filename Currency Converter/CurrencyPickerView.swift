@@ -9,13 +9,13 @@
 import UIKit
 
 protocol CurrencyPickerViewDelegate: AnyObject {
-    func didSelect(currency: String)
+    func didSelect(currency: Currency)
 }
 
 class CurrencyPickerView: UIView {
     private let pickerView = UIPickerView(frame: .zero)
-    private var currencies: [String] = []
-    private var selectedCurrency: String = ""
+    private var currencies: [Currency] = []
+    private var selectedCurrency: Currency?
     weak var delegate: CurrencyPickerViewDelegate?
 
     init() {
@@ -27,7 +27,7 @@ class CurrencyPickerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func show(currencies: [String]) {
+    func show(currencies: [Currency]) {
         isHidden = false
         self.currencies = currencies
         pickerView.reloadAllComponents()
@@ -79,8 +79,10 @@ private extension CurrencyPickerView {
     }
 
     @objc func doneTapped() {
-        delegate?.didSelect(currency: selectedCurrency)
         hide()
+        if let currency = selectedCurrency {
+            delegate?.didSelect(currency: currency)
+        }
     }
 }
 
@@ -94,7 +96,9 @@ extension CurrencyPickerView: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return currencies[row]
+        let currency = currencies[row]
+        return currency.name
+        //return "\(currency.code) : \(currency.name)"
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

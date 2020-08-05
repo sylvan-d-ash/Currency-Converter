@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
     private var pickerView: CurrencyPickerView?
     private var shouldShowPickerview = false
 
-    var currencies: [String] = []
+    private var currencies: [Currency] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,7 +127,7 @@ extension MainViewController: UITableViewDataSource {
         }
 
         let currency = currencies[indexPath.row]
-        cell.update(with: (currency, "\(indexPath).00"))
+        cell.update(with: (currency.name, "\(indexPath).00"))
         return cell
     }
 }
@@ -153,7 +153,7 @@ extension MainViewController: CurrencyPickerViewDelegate {
         pickerView?.show(currencies: currencies)
     }
 
-    func didSelect(currency: String) {
+    func didSelect(currency: Currency) {
         print(currency)
         shouldShowPickerview = false
     }

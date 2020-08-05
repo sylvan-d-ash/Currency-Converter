@@ -5,8 +5,16 @@
 //  Created by Sylvan Ash on 04/08/2020.
 //  Copyright © 2020 Sylvan Ash. All rights reserved.
 //
+//var str = "USDGBP"
+//str.removeSubrange(str.startIndex..<str.index(str.startIndex, offsetBy: 3))
+//print(str)
+//
 
 import UIKit
+
+protocol MainViewProtocol: AnyObject {
+    func toggleLoading(isLoading: Bool)
+}
 
 class MainViewController: UIViewController {
     private let currencyButton = UIButton(type: .system)

@@ -19,7 +19,7 @@ class MainPresenter {
     }
 
     func viewDidLoad() {
-        view.toggleLoading(isLoading: true)
+        toggleLoadingIndicator(isShown: true)
 
         // TODO:
         // - add interactor
@@ -34,13 +34,12 @@ class MainPresenter {
             switch result {
                 case .failure(let error):
                     print(error)
-                    self?.view.toggleLoading(isLoading: false)
-                    // TODO:
-                    // - show error + prompt to retry/cancel
+                    self?.toggleLoadingIndicator(isShown: false)
+
                 case .success(let json):
                     print(json)
                     guard let jsonDict = json as? [String: Any], let currenciesDict = jsonDict[Keys.currencies] as? [String: String] else {
-                        self?.view.toggleLoading(isLoading: false)
+                        self?.toggleLoadingIndicator(isShown: false)
                         return
                     }
 
@@ -58,15 +57,20 @@ class MainPresenter {
 }
 
 private extension MainPresenter {
+    func toggleLoadingIndicator(isShown: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            self?.view.toggleLoading(isLoading: isShown)
+        }
+    }
+
     func fetchExchangeRates() {
         webservice.makeRequest(endpoint: .live(source: nil)) { [weak self] result in
-            self?.view.toggleLoading(isLoading: false)
+            self?.toggleLoadingIndicator(isShown: false)
 
             switch result {
             case .failure(let error):
                 print(error)
-                // TODO:
-                // - show error + prompt to retry/cancel
+
             case .success(let json):
                 print(json)
                 guard let jsonDict = json as? [String: Any], let ratesDict = jsonDict[Keys.rates] as? [String: String] else {

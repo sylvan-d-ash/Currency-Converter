@@ -14,6 +14,7 @@ import UIKit
 
 protocol MainViewProtocol: AnyObject {
     func toggleLoading(isLoading: Bool)
+    func reloadData()
 }
 
 class MainViewController: UIViewController {
@@ -27,9 +28,13 @@ class MainViewController: UIViewController {
 
     private var currencies: [Currency] = []
 
+    var presenter: MainPresenter!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
+        presenter = MainPresenter(view: self, webservice: Webservice())
+        presenter.viewDidLoad()
     }
 }
 
@@ -96,15 +101,6 @@ private extension MainViewController {
         ])
     }
 
-    func toggleLoading(isLoading: Bool) {
-        if isLoading {
-            loadingView = LoadingView(self.view).show()
-        } else {
-            loadingView?.terminate()
-            loadingView = nil
-        }
-    }
-
     @objc func chooseCurrencyTapped() {
         guard currencies.count > 0 else { return }
         shouldShowPickerview = !shouldShowPickerview
@@ -114,6 +110,21 @@ private extension MainViewController {
         } else {
             pickerView?.hide()
         }
+    }
+}
+
+extension MainViewController: MainViewProtocol {
+    func toggleLoading(isLoading: Bool) {
+        if isLoading {
+            loadingView = LoadingView(self.view).show()
+        } else {
+            loadingView?.terminate()
+            loadingView = nil
+        }
+    }
+
+    func reloadData() {
+        tableView.reloadData()
     }
 }
 

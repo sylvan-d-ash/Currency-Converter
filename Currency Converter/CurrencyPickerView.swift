@@ -40,6 +40,11 @@ class CurrencyPickerView: UIView {
 
 private extension CurrencyPickerView {
     func setupSubviews() {
+        // TODO: improve on design
+        // - change background to white
+        // - add top shadow
+        // - separator line between done button and pickerview
+
         backgroundColor = .clear
 
         let dimView = UIView()

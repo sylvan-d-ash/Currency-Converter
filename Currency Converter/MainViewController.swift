@@ -9,12 +9,6 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    private let firstCurrencyButton = UIButton(type: .system)
-    private let secondCurrencyButton = UIButton(type: .system)
-    private let swapCurrenciesButton = UIButton(type: .system)
-    private let firstCurrencyTextfield = UITextField()
-    private let secondCurrencyTextfield = UITextField()
-
     private let currencyButton = UIButton(type: .system)
     private let currencyTextfield = UITextField()
     private let tableView = UITableView(frame: .zero, style: .plain)
@@ -28,8 +22,6 @@ class MainViewController: UIViewController {
 private extension MainViewController {
     enum Dimensions {
         static let spacing: CGFloat = 10
-        static let swapButtonWidth: CGFloat = 50
-        static let swapButtonHeight: CGFloat = 40
     }
 
     func setupSubviews() {
@@ -85,11 +77,6 @@ private extension MainViewController {
             tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Dimensions.spacing),
             tableView.bottomAnchor.constraint(equalTo: container.bottomAnchor),
         ])
-    }
-
-    func setDefaults() {
-        firstCurrencyButton.setTitle("US Dollar", for: .normal)
-        secondCurrencyButton.setTitle("Euro", for: .normal)
     }
 
     @objc func chooseCurrencyTapped() {

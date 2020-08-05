@@ -10,7 +10,7 @@ import Foundation
 
 enum Endpoint {
     case currencies
-    case live(source: String? = nil)
+    case live(source: String?)
 
     var path: String {
         switch self {
@@ -20,20 +20,71 @@ enum Endpoint {
     }
 }
 
+enum NetworkError: Error {
+    case invalidRequest
+    case invalidResponse
+}
+
 class Webservice {
     private static let API_KEY = "b29c42cb194f63237334bcecb5d86f12"
 
     func fetchAllCurrencies(completion: @escaping(Result<Any, Error>) -> Void) {
-        //
+        guard let url = buildQueryURL(endpoint: .currencies) else {
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { dataOrNil, responseOrNil, errorOrNil in
+            if let error = errorOrNil {
+                completion(.failure(error))
+                return
+            }
+
+            guard let data = dataOrNil else {
+                completion(.failure(NetworkError.invalidResponse))
+                return
+            }
+
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                print(json)
+                completion(.success(json))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
     }
 
-    func fetchExchangeRates(completion: @escaping(Result<Any, Error>) -> Void) {
-        //
+    func fetchExchangeRates(source: String? = nil, completion: @escaping(Result<Any, Error>) -> Void) {
+        guard let url = buildQueryURL(endpoint: .live(source: source)) else {
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { dataOrNil, responseOrNil, errorOrNil in
+            if let error = errorOrNil {
+                completion(.failure(error))
+                return
+            }
+
+            guard let data = dataOrNil else {
+                completion(.failure(NetworkError.invalidResponse))
+                return
+            }
+
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                print(json)
+                completion(.success(json))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
     }
 
-    private func buildQueryURL(endpoint: Endpoint, for location: String) -> URL? {
+    private func buildQueryURL(endpoint: Endpoint) -> URL? {
         var components = URLComponents()
-        components.scheme = "https"
+        components.scheme = "http"
         components.host = "api.currencylayer.com"
         components.path = "/\(endpoint.path)"
 

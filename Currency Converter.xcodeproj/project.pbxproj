@@ -18,6 +18,7 @@
 		5E659BE124DABDCA004BF636 /* CurrencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E659BE024DABDCA004BF636 /* CurrencyPickerView.swift */; };
 		5E659BE424DABEF1004BF636 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E659BE324DABEF1004BF636 /* UIView.swift */; };
 		5E659BE624DACB10004BF636 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E659BE524DACB10004BF636 /* Currency.swift */; };
+		5E659BE824DAD20B004BF636 /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E659BE724DAD20B004BF636 /* Webservice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		5E659BE024DABDCA004BF636 /* CurrencyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPickerView.swift; sourceTree = "<group>"; };
 		5E659BE324DABEF1004BF636 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		5E659BE524DACB10004BF636 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		5E659BE724DAD20B004BF636 /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				5E659BC624D976B3004BF636 /* Info.plist */,
 				5E659BDA24D976FE004BF636 /* MainViewController.swift */,
 				5E659BE524DACB10004BF636 /* Currency.swift */,
+				5E659BE724DAD20B004BF636 /* Webservice.swift */,
 				5E659BE024DABDCA004BF636 /* CurrencyPickerView.swift */,
 				5E659BDE24DAB5A1004BF636 /* LoadingView.swift */,
 				5E659BDC24DAAFA4004BF636 /* CurrencyCell.swift */,
@@ -227,6 +230,7 @@
 				5E659BB924D976B1004BF636 /* AppDelegate.swift in Sources */,
 				5E659BDF24DAB5A1004BF636 /* LoadingView.swift in Sources */,
 				5E659BBB24D976B1004BF636 /* SceneDelegate.swift in Sources */,
+				5E659BE824DAD20B004BF636 /* Webservice.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

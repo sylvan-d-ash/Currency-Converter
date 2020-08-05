@@ -46,6 +46,7 @@ private extension MainViewController {
         ])
 
         tableView.dataSource = self
+        tableView.register(CurrencyCell.self, forCellReuseIdentifier: "\(CurrencyCell.self)")
         container.addSubview(tableView)
 
         let headerView = UIView()

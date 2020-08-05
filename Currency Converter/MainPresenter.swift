@@ -34,22 +34,23 @@ class MainPresenter {
             switch result {
                 case .failure(let error):
                     print(error)
+                    self?.view.toggleLoading(isLoading: false)
                     // TODO:
                     // - show error + prompt to retry/cancel
                 case .success(let json):
                     print(json)
-                    if let jsonDict = json as? [String: Any], let currenciesDict = jsonDict[Keys.currencies] as? [String: String] {
-                        var currencies = [String: Currency]()
-                        for (code, name) in currenciesDict {
-                            let currency = Currency(code: code, name: name)
-                            currencies[code] = currency
-                        }
-                        self?.currencies = currencies
+                    guard let jsonDict = json as? [String: Any], let currenciesDict = jsonDict[Keys.currencies] as? [String: String] else {
+                        self?.view.toggleLoading(isLoading: false)
+                        return
                     }
 
-                    // TODO:
-                    // - parse JSON into dict of currencies
-                    // - fetch exchange rates
+                    var currencies = [String: Currency]()
+                    for (code, name) in currenciesDict {
+                        let currency = Currency(code: code, name: name)
+                        currencies[code] = currency
+                    }
+                    self?.currencies = currencies
+
                     self?.fetchExchangeRates()
             }
         }
@@ -58,12 +59,25 @@ class MainPresenter {
 
 private extension MainPresenter {
     func fetchExchangeRates() {
-        webservice.makeRequest(endpoint: .live(source: nil)) { result in
+        webservice.makeRequest(endpoint: .live(source: nil)) { [weak self] result in
+            self?.view.toggleLoading(isLoading: false)
+
             switch result {
             case .failure(let error):
                 print(error)
+                // TODO:
+                // - show error + prompt to retry/cancel
             case .success(let json):
                 print(json)
+                guard let jsonDict = json as? [String: Any], let ratesDict = jsonDict[Keys.rates] as? [String: String] else {
+                    return
+                }
+
+                for (pair, rate) in ratesDict {
+                    var code = pair
+                    code.removeSubrange(code.startIndex..<code.index(code.startIndex, offsetBy: Keys.usd.count))
+                    self?.currencies[code]?.price = rate
+                }
             }
         }
     }
@@ -72,4 +86,5 @@ private extension MainPresenter {
 private enum Keys {
     static let currencies = "currencies"
     static let rates = "quotes"
+    static let usd = "USD"
 }

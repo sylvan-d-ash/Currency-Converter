@@ -10,7 +10,7 @@ import Foundation
 
 enum Endpoint {
     case currencies
-    case live(source: String?)
+    case live(source: String? = nil)
 
     var path: String {
         switch self {

@@ -12,6 +12,7 @@ class MainPresenter {
     private weak var view: MainViewProtocol!
     private let webservice: Webservice
     private var currencies = [String: Currency]()
+    var numberOfItems: Int { return currencies.count }
 
     init(view: MainViewProtocol, webservice: Webservice) {
         self.view = view
@@ -54,6 +55,10 @@ class MainPresenter {
             }
         }
     }
+
+//    func currency(forRowAt index: Int) -> Currency {
+//        return
+//    }
 }
 
 private extension MainPresenter {
@@ -80,7 +85,7 @@ private extension MainPresenter {
                 for (pair, rate) in ratesDict {
                     var code = pair
                     code.removeSubrange(code.startIndex..<code.index(code.startIndex, offsetBy: Keys.usd.count))
-                    self?.currencies[code]?.price = rate
+                    self?.currencies[code]?.rate = rate
                 }
             }
         }

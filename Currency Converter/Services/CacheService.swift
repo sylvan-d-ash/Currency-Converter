@@ -15,14 +15,14 @@ enum CacheError: Error {
 }
 
 protocol CacheServiceProtocol: AnyObject {
-    func fetchCurrencies(endpoint: Endpoint, completion: @escaping (Result<[Currency], Error>) -> Void)
+    func fetchCurrencies(completion: (Result<[Currency], Error>) -> Void)
     func saveCurrencies(_ currencies: [Currency])
 }
 
 class CacheService: CacheServiceProtocol {
     private let defaults = UserDefaults.standard
 
-    func fetchCurrencies(endpoint: Endpoint, completion: @escaping (Result<[Currency], Error>) -> Void) {
+    func fetchCurrencies(completion: (Result<[Currency], Error>) -> Void) {
         guard let time = defaults.object(forKey: Constants.Keys.time) as? Date else {
             completion(.failure(CacheError.noCacheError))
             return

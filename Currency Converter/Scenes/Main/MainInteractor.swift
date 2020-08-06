@@ -14,25 +14,23 @@ enum ParseError: Error {
 }
 
 class MainInteractor {
-    private let webservice: Webservice
+    private let cacheService: CacheServiceProtocol
+    private let webservice: WebserviceProtocol
     private var currencies = [Currency]()
 
-    init(webservice: Webservice = Webservice()) {
+    init(cacheService: CacheServiceProtocol = CacheService(), webservice: WebserviceProtocol = Webservice()) {
+        self.cacheService = cacheService
         self.webservice = webservice
     }
 
     func fetchCurrencies(completion: @escaping (Result<[Currency], Error>) -> Void) {
-        webservice.fetchResource(endpoint: .currencies) { [weak self] result in
+        cacheService.fetchCurrencies { [weak self] result in
             switch result {
-            case .failure(let error):
-                completion(.failure(error))
-            case .success(let json):
-                guard let currencies = self?.parseCurrencies(json: json) else {
-                    completion(.failure(ParseError.parseCurrenciesError))
-                    return
-                }
-
-                self?.fetchExchangeRates(currencies: currencies, completion: completion)
+            case .failure:
+                self?.fetchFromWeb(completion: completion)
+            case .success(let currencies):
+                self?.currencies = currencies
+                completion(.success(currencies))
             }
         }
     }
@@ -50,6 +48,22 @@ class MainInteractor {
 }
 
 private extension MainInteractor {
+    func fetchFromWeb(completion: @escaping (Result<[Currency], Error>) -> Void) {
+        webservice.fetchResource(endpoint: .currencies) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let json):
+                guard let currencies = self?.parseCurrencies(json: json) else {
+                    completion(.failure(ParseError.parseCurrenciesError))
+                    return
+                }
+
+                self?.fetchExchangeRates(currencies: currencies, completion: completion)
+            }
+        }
+    }
+
     func parseCurrencies(json: Any) -> [Currency]? {
         guard let jsonDict = json as? [String: Any], let currenciesDict = jsonDict[Keys.currencies] as? [String: String] else {
             return nil
@@ -84,6 +98,7 @@ private extension MainInteractor {
             currencies[i] = currency
         }
 
+        cacheService.saveCurrencies(currencies)
         completion(.success(currencies))
     }
 }

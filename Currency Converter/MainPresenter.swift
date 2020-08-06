@@ -12,7 +12,7 @@ class MainPresenter {
     private weak var view: MainViewProtocol!
     private let webservice: Webservice
     private(set) var currencies = [Currency]()
-    var value: Decimal = 0
+    var value: Double = 0
     var numberOfItems: Int {
         guard value > 0 else { return 0 }
         return currencies.count
@@ -55,7 +55,7 @@ class MainPresenter {
     }
 
     func valueDidChange(_ value: String?) {
-        guard let value = value, let decimalValue = Decimal(string: value) else { return }
+        guard let value = value, let decimalValue = Double(value) else { return }
         self.value = decimalValue
         view.reloadData()
     }
@@ -63,12 +63,13 @@ class MainPresenter {
     func configure(_ cell: CurrencyCell, forRowAt index: Int) {
         let currency = currencies[index]
         let price = convert(value: value, atRate: currency.rate)
-        cell.update(with: (currency.name, "\(price)"))
+        let roundedPrice = round(price * 100) / 100
+        cell.update(with: (currency.name, "\(roundedPrice)"))
     }
 }
 
 private extension MainPresenter {
-    func convert(value: Decimal, atRate rate: Decimal) -> Decimal {
+    func convert(value: Double, atRate rate: Double) -> Double {
         guard let baseCurrency = selectedCurrency else { return 0 }
         let valueToUsd = value * baseCurrency.rate
         let convertedValue = valueToUsd * rate
@@ -122,7 +123,7 @@ private extension MainPresenter {
             let key = "\(Keys.usd)\(currency.code)"
             guard let rate = rates[key] else { continue }
 
-            currency.rate = Decimal(floatLiteral: rate)
+            currency.rate = rate
             currencies[i] = currency
 
             if key == Keys.defaultSource {

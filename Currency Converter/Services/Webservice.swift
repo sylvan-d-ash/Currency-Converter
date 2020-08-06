@@ -14,8 +14,8 @@ enum Endpoint {
 
     var path: String {
         switch self {
-            case .currencies: return "list"
-            case .live: return "live"
+        case .currencies: return "list"
+        case .live: return "live"
         }
     }
 }
@@ -25,10 +25,14 @@ enum NetworkError: Error {
     case invalidResponse
 }
 
-class Webservice {
+protocol WebserviceProtocol: AnyObject {
+    func fetchResource(endpoint: Endpoint, completion: @escaping (Result<Any, Error>) -> Void)
+}
+
+class Webservice: WebserviceProtocol {
     private static let API_KEY = "b29c42cb194f63237334bcecb5d86f12"
 
-    func makeRequest(endpoint: Endpoint, completion: @escaping(Result<Any, Error>) -> Void) {
+    func fetchResource(endpoint: Endpoint, completion: @escaping (Result<Any, Error>) -> Void) {
         guard let url = buildQueryURL(endpoint: endpoint) else {
             completion(.failure(NetworkError.invalidRequest))
             return
@@ -47,60 +51,6 @@ class Webservice {
 
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                completion(.success(json))
-            } catch {
-                completion(.failure(error))
-            }
-        }.resume()
-    }
-
-    func fetchAllCurrencies(completion: @escaping(Result<Any, Error>) -> Void) {
-        guard let url = buildQueryURL(endpoint: .currencies) else {
-            completion(.failure(NetworkError.invalidRequest))
-            return
-        }
-
-        URLSession.shared.dataTask(with: url) { dataOrNil, responseOrNil, errorOrNil in
-            if let error = errorOrNil {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = dataOrNil else {
-                completion(.failure(NetworkError.invalidResponse))
-                return
-            }
-
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                print(json)
-                completion(.success(json))
-            } catch {
-                completion(.failure(error))
-            }
-        }.resume()
-    }
-
-    func fetchExchangeRates(source: String? = nil, completion: @escaping(Result<Any, Error>) -> Void) {
-        guard let url = buildQueryURL(endpoint: .live(source: source)) else {
-            completion(.failure(NetworkError.invalidRequest))
-            return
-        }
-
-        URLSession.shared.dataTask(with: url) { dataOrNil, responseOrNil, errorOrNil in
-            if let error = errorOrNil {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = dataOrNil else {
-                completion(.failure(NetworkError.invalidResponse))
-                return
-            }
-
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                print(json)
                 completion(.success(json))
             } catch {
                 completion(.failure(error))

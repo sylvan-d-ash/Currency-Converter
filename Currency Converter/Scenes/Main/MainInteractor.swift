@@ -22,7 +22,7 @@ class MainInteractor {
     }
 
     func fetchCurrencies(completion: @escaping (Result<[Currency], Error>) -> Void) {
-        webservice.makeRequest(endpoint: .currencies) { [weak self] result in
+        webservice.fetchResource(endpoint: .currencies) { [weak self] result in
             switch result {
             case .failure(let error):
                 completion(.failure(error))
@@ -38,7 +38,7 @@ class MainInteractor {
     }
 
     func fetchExchangeRates(currencies: [Currency], completion: @escaping (Result<[Currency], Error>) -> Void) {
-        webservice.makeRequest(endpoint: .live(source: nil)) { [weak self] result in
+        webservice.fetchResource(endpoint: .live(source: nil)) { [weak self] result in
             switch result {
             case .failure(let error):
                 completion(.failure(error))

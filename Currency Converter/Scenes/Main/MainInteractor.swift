@@ -13,7 +13,12 @@ enum ParseError: Error {
     case parseExchangeRatesError
 }
 
-class MainInteractor {
+protocol MainInteractorProtocol {
+    func fetchCurrencies(completion: @escaping (Result<[Currency], Error>) -> Void)
+    func fetchExchangeRates(currencies: [Currency], completion: @escaping (Result<[Currency], Error>) -> Void)
+}
+
+class MainInteractor: MainInteractorProtocol {
     private let cacheService: CacheServiceProtocol
     private let webservice: WebserviceProtocol
     private var currencies = [Currency]()

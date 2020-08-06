@@ -10,8 +10,7 @@ import Foundation
 
 class MainPresenter {
     private weak var view: MainViewProtocol!
-    private let interactor: MainInteractor
-    private let webservice: Webservice
+    private let interactor: MainInteractorProtocol
     private var currencies = [Currency]()
     private var selectedCurrency: Currency?
     private var shouldShowPickerView = false
@@ -21,23 +20,13 @@ class MainPresenter {
         return currencies.count
     }
 
-    init(view: MainViewProtocol, interactor: MainInteractor, webservice: Webservice) {
+    init(view: MainViewProtocol, interactor: MainInteractorProtocol) {
         self.view = view
         self.interactor = interactor
-        self.webservice = webservice
     }
 
     func viewDidLoad() {
         toggleLoadingIndicator(isShown: true)
-
-        // TODO:
-        // - add interactor
-        // - interactor will have web and cache service
-        // - interactor to first check cache for data
-        // - if no data in cache, or if cache data has expired
-        // - fetch data from web
-        // - after fetch, update cache
-        // - complete
 
         interactor.fetchCurrencies { [weak self] result in
             guard let self = self else { return }
@@ -45,7 +34,7 @@ class MainPresenter {
 
             switch result {
                 case .failure(let error):
-                    print(error)
+                    self.view.showError(message: error.localizedDescription)
 
                 case .success(let currencies):
                     self.currencies = currencies

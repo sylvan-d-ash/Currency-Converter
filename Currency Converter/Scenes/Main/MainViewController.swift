@@ -19,6 +19,7 @@ protocol MainViewProtocol: AnyObject {
     func showPickerView(with currencies: [Currency])
     func hidePickerView()
     func updateSelectedCurrency(name: String)
+    func showError(message: String)
 }
 
 class MainViewController: UIViewController {
@@ -168,6 +169,10 @@ extension MainViewController: MainViewProtocol {
 
     func updateSelectedCurrency(name: String) {
         currencyButton.setTitle("\(name)", for: .normal)
+    }
+
+    func showError(message: String) {
+        // TODO
     }
 }
 

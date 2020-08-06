@@ -81,7 +81,7 @@ class MainPresenter {
 private extension MainPresenter {
     func convert(value: Double, atRate rate: Double) -> Double {
         guard let baseCurrency = selectedCurrency else { return 0 }
-        let valueToUsd = value * baseCurrency.rate
+        let valueToUsd = value / baseCurrency.rate
         let convertedValue = valueToUsd * rate
         return convertedValue
     }

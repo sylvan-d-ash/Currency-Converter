@@ -92,18 +92,16 @@ private extension MainPresenter {
                     return
                 }
 
-//                for (pair, rate) in ratesDict {
-//                    var code = pair
-//                    code.removeSubrange(code.startIndex..<code.index(code.startIndex, offsetBy: Keys.usd.count))
-//                    self?.currencies[code]?.rate = rate
-//                }
-
                 for i in 0..<self.currencies.count {
                     var currency = self.currencies[i]
                     let key = "\(Keys.usd)\(currency.code)"
                     guard let rate = rates[key] else { continue }
                     currency.rate = rate
                     self.currencies[i] = currency
+
+                    if key == Keys.defaultSource {
+                        self.selectedCurrency = currency
+                    }
                 }
             }
         }
@@ -114,4 +112,5 @@ private enum Keys {
     static let currencies = "currencies"
     static let rates = "quotes"
     static let usd = "USD"
+    static let defaultSource = "USDUSD"
 }

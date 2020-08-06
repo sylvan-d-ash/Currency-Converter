@@ -177,6 +177,7 @@ extension MainViewController: CurrencyPickerViewDelegate {
 
     func didSelect(currency: Currency) {
         shouldShowPickerview = false
+        currencyButton.setTitle("\(currency.code)", for: .normal)
         presenter.didSelect(currency: currency)
     }
 }

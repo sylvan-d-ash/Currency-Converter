@@ -27,6 +27,7 @@
 		5EF4624B24DC28800021D0A9 /* MainViewSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624A24DC28800021D0A9 /* MainViewSpy.swift */; };
 		5EF4624D24DC299E0021D0A9 /* WebserviceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624C24DC299E0021D0A9 /* WebserviceMock.swift */; };
 		5EF4624F24DC2A810021D0A9 /* CacheServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624E24DC2A810021D0A9 /* CacheServiceMock.swift */; };
+		5EF4625124DC2B6D0021D0A9 /* MainInteractorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4625024DC2B6D0021D0A9 /* MainInteractorMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		5EF4624A24DC28800021D0A9 /* MainViewSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewSpy.swift; sourceTree = "<group>"; };
 		5EF4624C24DC299E0021D0A9 /* WebserviceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebserviceMock.swift; sourceTree = "<group>"; };
 		5EF4624E24DC2A810021D0A9 /* CacheServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheServiceMock.swift; sourceTree = "<group>"; };
+		5EF4625024DC2B6D0021D0A9 /* MainInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractorMock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 			children = (
 				5EF4624A24DC28800021D0A9 /* MainViewSpy.swift */,
 				5EF4624C24DC299E0021D0A9 /* WebserviceMock.swift */,
+				5EF4625024DC2B6D0021D0A9 /* MainInteractorMock.swift */,
 				5EF4624E24DC2A810021D0A9 /* CacheServiceMock.swift */,
 			);
 			path = Mocks;
@@ -332,6 +335,7 @@
 				5EF4624B24DC28800021D0A9 /* MainViewSpy.swift in Sources */,
 				5E659BD024D976B3004BF636 /* Currency_ConverterTests.swift in Sources */,
 				5EF4624D24DC299E0021D0A9 /* WebserviceMock.swift in Sources */,
+				5EF4625124DC2B6D0021D0A9 /* MainInteractorMock.swift in Sources */,
 				5EF4624824DC24B80021D0A9 /* MainInteractorTests.swift in Sources */,
 				5EF4624F24DC2A810021D0A9 /* CacheServiceMock.swift in Sources */,
 				5EF4624624DC24AF0021D0A9 /* MainPresenterTests.swift in Sources */,

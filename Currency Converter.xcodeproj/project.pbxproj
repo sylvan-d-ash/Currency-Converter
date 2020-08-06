@@ -24,6 +24,7 @@
 		5EF4624224DC1B9E0021D0A9 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624124DC1B9E0021D0A9 /* CacheService.swift */; };
 		5EF4624624DC24AF0021D0A9 /* MainPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624524DC24AF0021D0A9 /* MainPresenterTests.swift */; };
 		5EF4624824DC24B80021D0A9 /* MainInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624724DC24B80021D0A9 /* MainInteractorTests.swift */; };
+		5EF4624B24DC28800021D0A9 /* MainViewSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624A24DC28800021D0A9 /* MainViewSpy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		5EF4624124DC1B9E0021D0A9 /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
 		5EF4624524DC24AF0021D0A9 /* MainPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenterTests.swift; sourceTree = "<group>"; };
 		5EF4624724DC24B80021D0A9 /* MainInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractorTests.swift; sourceTree = "<group>"; };
+		5EF4624A24DC28800021D0A9 /* MainViewSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewSpy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 		5E659BCE24D976B3004BF636 /* Currency ConverterTests */ = {
 			isa = PBXGroup;
 			children = (
+				5EF4624924DC28600021D0A9 /* Mocks */,
 				5E659BCF24D976B3004BF636 /* Currency_ConverterTests.swift */,
 				5EF4624524DC24AF0021D0A9 /* MainPresenterTests.swift */,
 				5EF4624724DC24B80021D0A9 /* MainInteractorTests.swift */,
@@ -191,6 +194,14 @@
 				5E659BE324DABEF1004BF636 /* UIView.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5EF4624924DC28600021D0A9 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				5EF4624A24DC28800021D0A9 /* MainViewSpy.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,6 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EF4624B24DC28800021D0A9 /* MainViewSpy.swift in Sources */,
 				5E659BD024D976B3004BF636 /* Currency_ConverterTests.swift in Sources */,
 				5EF4624824DC24B80021D0A9 /* MainInteractorTests.swift in Sources */,
 				5EF4624624DC24AF0021D0A9 /* MainPresenterTests.swift in Sources */,

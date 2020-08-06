@@ -24,7 +24,9 @@ class CurrencyCell: UITableViewCell {
 
     func update(with currency: (name: String, price: String)) {
         nameLabel.text = currency.name
+        nameLabel.lineBreakMode = .byWordWrapping
         priceLabel.text = currency.price
+        priceLabel.textAlignment = .right
     }
 }
 
@@ -38,7 +40,7 @@ private extension CurrencyCell {
             priceLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            priceLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/5),
+            priceLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/3),
 
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

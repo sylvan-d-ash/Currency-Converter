@@ -19,6 +19,7 @@ protocol MainViewProtocol: AnyObject {
     func showPickerView(with currencies: [Currency])
     func hidePickerView()
     func updateSelectedCurrency(name: String)
+    func showError(message: String)
 }
 
 class MainViewController: UIViewController {
@@ -34,7 +35,7 @@ class MainViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         let interactor = MainInteractor()
-        presenter = MainPresenter(view: self, interactor: interactor, webservice: Webservice())
+        presenter = MainPresenter(view: self, interactor: interactor)
     }
 
     required init?(coder: NSCoder) {
@@ -168,6 +169,10 @@ extension MainViewController: MainViewProtocol {
 
     func updateSelectedCurrency(name: String) {
         currencyButton.setTitle("\(name)", for: .normal)
+    }
+
+    func showError(message: String) {
+        // TODO
     }
 }
 

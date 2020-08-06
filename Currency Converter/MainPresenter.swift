@@ -43,17 +43,7 @@ class MainPresenter {
                     self?.toggleLoadingIndicator(isShown: false)
 
                 case .success(let json):
-                    guard let jsonDict = json as? [String: Any], let currenciesDict = jsonDict[Keys.currencies] as? [String: String] else {
-                        self?.toggleLoadingIndicator(isShown: false)
-                        return
-                    }
-
-                    var currencies = [Currency]()
-                    for (code, name) in currenciesDict {
-                        let currency = Currency(code: code, name: name)
-                        currencies.append(currency)
-                    }
-                    self?.currencies = currencies
+                    guard (self?.parseCurrencies(json: json) ?? false) else { return }
 
                     self?.fetchExchangeRates()
             }
@@ -72,16 +62,17 @@ class MainPresenter {
 
     func configure(_ cell: CurrencyCell, forRowAt index: Int) {
         let currency = currencies[index]
-        let price = calculatePrice(of: value, atRate: currency.rate, withBaseRate: selectedCurrency?.rate ?? "")
+        let price = convert(value: value, atRate: currency.rate)
         cell.update(with: (currency.name, "\(price)"))
     }
 }
 
 private extension MainPresenter {
-    func calculatePrice(of value: Decimal, atRate rate: String, withBaseRate baseRate: String) -> Decimal {
-        let valueToUsd = value * (Decimal(string: baseRate) ?? 0)
-        let price = valueToUsd * (Decimal(string: rate) ?? 0)
-        return price
+    func convert(value: Decimal, atRate rate: Decimal) -> Decimal {
+        guard let baseCurrency = selectedCurrency else { return 0 }
+        let valueToUsd = value * baseCurrency.rate
+        let convertedValue = valueToUsd * rate
+        return convertedValue
     }
 
     func toggleLoadingIndicator(isShown: Bool) {
@@ -100,21 +91,42 @@ private extension MainPresenter {
                 print(error)
 
             case .success(let json):
-                guard let jsonDict = json as? [String: Any], let rates = jsonDict[Keys.rates] as? [String: Any] else {
-                    return
-                }
+                self.parseExchangeRates(json: json)
+            }
+        }
+    }
 
-                for i in 0..<self.currencies.count {
-                    var currency = self.currencies[i]
-                    let key = "\(Keys.usd)\(currency.code)"
-                    guard let rate = rates[key] else { continue }
-                    currency.rate = "\(rate)"
-                    self.currencies[i] = currency
+    func parseCurrencies(json: Any) -> Bool {
+        guard let jsonDict = json as? [String: Any], let currenciesDict = jsonDict[Keys.currencies] as? [String: String] else {
+            self.toggleLoadingIndicator(isShown: false)
+            return false
+        }
 
-                    if key == Keys.defaultSource {
-                        self.selectedCurrency = currency
-                    }
-                }
+        var currencies = [Currency]()
+        for (code, name) in currenciesDict {
+            let currency = Currency(code: code, name: name)
+            currencies.append(currency)
+        }
+        self.currencies = currencies
+
+        return true
+    }
+
+    func parseExchangeRates(json: Any) {
+        guard let jsonDict = json as? [String: Any], let rates = jsonDict[Keys.rates] as? [String: Double] else {
+            return
+        }
+
+        for i in 0..<currencies.count {
+            var currency = currencies[i]
+            let key = "\(Keys.usd)\(currency.code)"
+            guard let rate = rates[key] else { continue }
+
+            currency.rate = Decimal(floatLiteral: rate)
+            currencies[i] = currency
+
+            if key == Keys.defaultSource {
+                selectedCurrency = currency
             }
         }
     }

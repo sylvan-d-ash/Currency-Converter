@@ -43,7 +43,6 @@ class MainPresenter {
                     self?.toggleLoadingIndicator(isShown: false)
 
                 case .success(let json):
-                    print(json)
                     guard let jsonDict = json as? [String: Any], let currenciesDict = jsonDict[Keys.currencies] as? [String: String] else {
                         self?.toggleLoadingIndicator(isShown: false)
                         return
@@ -63,6 +62,12 @@ class MainPresenter {
 
     func didSelect(currency: Currency) {
         selectedCurrency = currency
+    }
+
+    func valueDidChange(_ value: String?) {
+        guard let value = value, let decimalValue = Decimal(string: value) else { return }
+        self.value = decimalValue
+        view.reloadData()
     }
 
     func configure(_ cell: CurrencyCell, forRowAt index: Int) {
@@ -95,8 +100,7 @@ private extension MainPresenter {
                 print(error)
 
             case .success(let json):
-                print(json)
-                guard let jsonDict = json as? [String: Any], let rates = jsonDict[Keys.rates] as? [String: String] else {
+                guard let jsonDict = json as? [String: Any], let rates = jsonDict[Keys.rates] as? [String: Any] else {
                     return
                 }
 
@@ -104,7 +108,7 @@ private extension MainPresenter {
                     var currency = self.currencies[i]
                     let key = "\(Keys.usd)\(currency.code)"
                     guard let rate = rates[key] else { continue }
-                    currency.rate = rate
+                    currency.rate = "\(rate)"
                     self.currencies[i] = currency
 
                     if key == Keys.defaultSource {

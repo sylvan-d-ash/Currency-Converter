@@ -47,7 +47,6 @@ class Webservice {
 
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                print(json)
                 completion(.success(json))
             } catch {
                 completion(.failure(error))

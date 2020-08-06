@@ -75,6 +75,7 @@ private extension MainViewController {
         currencyTextfield.delegate = self
         currencyTextfield.keyboardType = .decimalPad
         currencyTextfield.borderStyle = .roundedRect
+        currencyTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         headerView.addSubview(currencyTextfield)
 
         currencyButton.addTarget(self, action: #selector(chooseCurrencyTapped), for: .touchUpInside)
@@ -116,6 +117,10 @@ private extension MainViewController {
             pickerView?.hide()
         }
     }
+
+    @objc func textFieldDidChange() {
+        presenter.valueDidChange(currencyTextfield.text)
+    }
 }
 
 extension MainViewController: MainViewProtocol {
@@ -138,6 +143,8 @@ extension MainViewController: UITextFieldDelegate {
         super.touchesBegan(touches, with: event)
         view.endEditing(false)
     }
+
+    //
 }
 
 extension MainViewController: UITableViewDataSource {
@@ -179,5 +186,6 @@ extension MainViewController: CurrencyPickerViewDelegate {
         shouldShowPickerview = false
         currencyButton.setTitle("\(currency.code)", for: .normal)
         presenter.didSelect(currency: currency)
+        tableView.reloadData()
     }
 }

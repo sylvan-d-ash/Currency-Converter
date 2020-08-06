@@ -2,7 +2,7 @@
 A sample currency conversion app
 
 ## Screenshots
-![Start scene](https://user-images.githubusercontent.com/4120488/89531438-ea3dc780-d7f8-11ea-89af-f57965f2b0dd.png)
-![Choose currency](https://user-images.githubusercontent.com/4120488/89531441-ec078b00-d7f8-11ea-9d99-438f6ad72bcd.png)
-![Converted currency](https://user-images.githubusercontent.com/4120488/89531444-ed38b800-d7f8-11ea-8e41-649bc9bbafdb.png)
-![Change selected currency](https://user-images.githubusercontent.com/4120488/89531447-ee69e500-d7f8-11ea-87ee-2ce31b046b07.png)
+![Start scene](https://user-images.githubusercontent.com/4120488/89532164-08f08e00-d7fa-11ea-859f-5d578aa38615.png)
+![Choose currency](https://user-images.githubusercontent.com/4120488/89532169-0aba5180-d7fa-11ea-8404-bebe415613dd.png)
+![Converted currency](https://user-images.githubusercontent.com/4120488/89532174-0beb7e80-d7fa-11ea-928d-0f53a8b73182.png)
+![Change selected currency](https://user-images.githubusercontent.com/4120488/89532178-0c841500-d7fa-11ea-9717-09cd33bb346b.png)

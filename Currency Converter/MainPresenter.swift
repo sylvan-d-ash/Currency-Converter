@@ -66,11 +66,19 @@ class MainPresenter {
     }
 
     func configure(_ cell: CurrencyCell, forRowAt index: Int) {
-        //
+        let currency = currencies[index]
+        let price = calculatePrice(of: value, atRate: currency.rate, withBaseRate: selectedCurrency?.rate ?? "")
+        cell.update(with: (currency.name, "\(price)"))
     }
 }
 
 private extension MainPresenter {
+    func calculatePrice(of value: Decimal, atRate rate: String, withBaseRate baseRate: String) -> Decimal {
+        let valueToUsd = value * (Decimal(string: baseRate) ?? 0)
+        let price = valueToUsd * (Decimal(string: rate) ?? 0)
+        return price
+    }
+
     func toggleLoadingIndicator(isShown: Bool) {
         DispatchQueue.main.async { [weak self] in
             self?.view.toggleLoading(isLoading: isShown)

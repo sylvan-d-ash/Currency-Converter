@@ -11,8 +11,13 @@ import Foundation
 class MainPresenter {
     private weak var view: MainViewProtocol!
     private let webservice: Webservice
-    private var currencies = [String: Currency]()
-    var numberOfItems: Int { return currencies.count }
+    private(set) var currencies = [Currency]()
+    var value: Decimal = 0
+    var numberOfItems: Int {
+        guard value > 0 else { return 0 }
+        return currencies.count
+    }
+    private var selectedCurrency: Currency?
 
     init(view: MainViewProtocol, webservice: Webservice) {
         self.view = view
@@ -44,10 +49,10 @@ class MainPresenter {
                         return
                     }
 
-                    var currencies = [String: Currency]()
+                    var currencies = [Currency]()
                     for (code, name) in currenciesDict {
                         let currency = Currency(code: code, name: name)
-                        currencies[code] = currency
+                        currencies.append(currency)
                     }
                     self?.currencies = currencies
 
@@ -56,9 +61,13 @@ class MainPresenter {
         }
     }
 
-//    func currency(forRowAt index: Int) -> Currency {
-//        return
-//    }
+    func didSelect(currency: Currency) {
+        selectedCurrency = currency
+    }
+
+    func configure(_ cell: CurrencyCell, forRowAt index: Int) {
+        //
+    }
 }
 
 private extension MainPresenter {
@@ -70,7 +79,8 @@ private extension MainPresenter {
 
     func fetchExchangeRates() {
         webservice.makeRequest(endpoint: .live(source: nil)) { [weak self] result in
-            self?.toggleLoadingIndicator(isShown: false)
+            guard let self = self else { return }
+            self.toggleLoadingIndicator(isShown: false)
 
             switch result {
             case .failure(let error):
@@ -78,14 +88,22 @@ private extension MainPresenter {
 
             case .success(let json):
                 print(json)
-                guard let jsonDict = json as? [String: Any], let ratesDict = jsonDict[Keys.rates] as? [String: String] else {
+                guard let jsonDict = json as? [String: Any], let rates = jsonDict[Keys.rates] as? [String: String] else {
                     return
                 }
 
-                for (pair, rate) in ratesDict {
-                    var code = pair
-                    code.removeSubrange(code.startIndex..<code.index(code.startIndex, offsetBy: Keys.usd.count))
-                    self?.currencies[code]?.rate = rate
+//                for (pair, rate) in ratesDict {
+//                    var code = pair
+//                    code.removeSubrange(code.startIndex..<code.index(code.startIndex, offsetBy: Keys.usd.count))
+//                    self?.currencies[code]?.rate = rate
+//                }
+
+                for i in 0..<self.currencies.count {
+                    var currency = self.currencies[i]
+                    let key = "\(Keys.usd)\(currency.code)"
+                    guard let rate = rates[key] else { continue }
+                    currency.rate = rate
+                    self.currencies[i] = currency
                 }
             }
         }

@@ -26,14 +26,20 @@ class MainViewController: UIViewController {
     private var pickerView: CurrencyPickerView?
     private var shouldShowPickerview = false
 
-    private var currencies: [Currency] = []
-
     var presenter: MainPresenter!
+
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        presenter = MainPresenter(view: self, webservice: Webservice())
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
-        presenter = MainPresenter(view: self, webservice: Webservice())
         presenter.viewDidLoad()
     }
 }
@@ -102,7 +108,7 @@ private extension MainViewController {
     }
 
     @objc func chooseCurrencyTapped() {
-        guard currencies.count > 0 else { return }
+        guard presenter.numberOfItems > 0 else { return }
         shouldShowPickerview = !shouldShowPickerview
 
         if shouldShowPickerview {
@@ -137,16 +143,14 @@ extension MainViewController: UITextFieldDelegate {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currencies.count
+        return presenter.numberOfItems
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(CurrencyCell.self)", for: indexPath) as? CurrencyCell else {
             return UITableViewCell()
         }
-
-        let currency = currencies[indexPath.row]
-        cell.update(with: (currency.name, "\(indexPath).00"))
+        presenter.configure(cell, forRowAt: indexPath.row)
         return cell
     }
 }
@@ -169,11 +173,11 @@ extension MainViewController: CurrencyPickerViewDelegate {
             self.pickerView = pickerView
         }
 
-        pickerView?.show(currencies: currencies)
+        pickerView?.show(currencies: presenter.currencies)
     }
 
     func didSelect(currency: Currency) {
-        print(currency)
         shouldShowPickerview = false
+        presenter.didSelect(currency: currency)
     }
 }

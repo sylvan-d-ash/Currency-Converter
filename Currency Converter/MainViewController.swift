@@ -108,7 +108,6 @@ private extension MainViewController {
     }
 
     @objc func chooseCurrencyTapped() {
-        guard presenter.numberOfItems > 0 else { return }
         shouldShowPickerview = !shouldShowPickerview
 
         if shouldShowPickerview {

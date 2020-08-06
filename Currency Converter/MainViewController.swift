@@ -74,6 +74,7 @@ private extension MainViewController {
         tableView.separatorInset = .zero
         tableView.tableFooterView = UIView()
         tableView.rowHeight = 40
+        tableView.keyboardDismissMode = .onDrag
         tableView.register(CurrencyCell.self, forCellReuseIdentifier: "\(CurrencyCell.self)")
         container.addSubview(tableView)
 
@@ -116,6 +117,7 @@ private extension MainViewController {
     }
 
     @objc func chooseCurrencyTapped() {
+        view.endEditing(false)
         presenter.didTapShowPickerView()
     }
 

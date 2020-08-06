@@ -50,7 +50,7 @@ private extension CurrencyPickerView {
 
         let dimView = UIView()
         dimView.backgroundColor = .gray
-        dimView.alpha = 0.7
+        //dimView.alpha = 0.7
         addSubview(dimView)
         dimView.fillParent()
 
@@ -95,13 +95,11 @@ extension CurrencyPickerView: UIPickerViewDataSource, UIPickerViewDelegate {
         return currencies.count
     }
 
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let currency = currencies[row]
-        return currency.name
-        //return "\(currency.code) : \(currency.name)"
-    }
-
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedCurrency = currencies[row]
+    }
+
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        return NSAttributedString(string: currencies[row].name, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
 }

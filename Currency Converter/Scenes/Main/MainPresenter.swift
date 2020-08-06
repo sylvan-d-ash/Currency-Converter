@@ -10,8 +10,9 @@ import Foundation
 
 class MainPresenter {
     private weak var view: MainViewProtocol!
+    private let interactor: MainInteractor
     private let webservice: Webservice
-    private(set) var currencies = [Currency]()
+    private var currencies = [Currency]()
     private var selectedCurrency: Currency?
     private var shouldShowPickerView = false
     private var value: Double = 0
@@ -20,8 +21,9 @@ class MainPresenter {
         return currencies.count
     }
 
-    init(view: MainViewProtocol, webservice: Webservice) {
+    init(view: MainViewProtocol, interactor: MainInteractor, webservice: Webservice) {
         self.view = view
+        self.interactor = interactor
         self.webservice = webservice
     }
 
@@ -37,16 +39,20 @@ class MainPresenter {
         // - after fetch, update cache
         // - complete
 
-        webservice.makeRequest(endpoint: .currencies) { [weak self] result in
+        interactor.fetchCurrencies { [weak self] result in
+            guard let self = self else { return }
+            self.toggleLoadingIndicator(isShown: false)
+
             switch result {
                 case .failure(let error):
                     print(error)
-                    self?.toggleLoadingIndicator(isShown: false)
 
-                case .success(let json):
-                    guard (self?.parseCurrencies(json: json) ?? false) else { return }
+                case .success(let currencies):
+                    self.currencies = currencies
 
-                    self?.fetchExchangeRates()
+                    for currency in currencies where currency.code == "USD" {
+                        self.selectedCurrency = currency
+                    }
             }
         }
     }
@@ -97,56 +103,6 @@ private extension MainPresenter {
                 self?.view.showLoadingView()
             } else {
                 self?.view.hideLoadingView()
-            }
-        }
-    }
-
-    func fetchExchangeRates() {
-        webservice.makeRequest(endpoint: .live(source: nil)) { [weak self] result in
-            guard let self = self else { return }
-            self.toggleLoadingIndicator(isShown: false)
-
-            switch result {
-            case .failure(let error):
-                print(error)
-
-            case .success(let json):
-                self.parseExchangeRates(json: json)
-            }
-        }
-    }
-
-    func parseCurrencies(json: Any) -> Bool {
-        guard let jsonDict = json as? [String: Any], let currenciesDict = jsonDict[Keys.currencies] as? [String: String] else {
-            self.toggleLoadingIndicator(isShown: false)
-            return false
-        }
-
-        var currencies = [Currency]()
-        for (code, name) in currenciesDict {
-            let currency = Currency(code: code, name: name)
-            currencies.append(currency)
-        }
-        self.currencies = currencies
-
-        return true
-    }
-
-    func parseExchangeRates(json: Any) {
-        guard let jsonDict = json as? [String: Any], let rates = jsonDict[Keys.rates] as? [String: Double] else {
-            return
-        }
-
-        for i in 0..<currencies.count {
-            var currency = currencies[i]
-            let key = "\(Keys.usd)\(currency.code)"
-            guard let rate = rates[key] else { continue }
-
-            currency.rate = rate
-            currencies[i] = currency
-
-            if key == Keys.defaultSource {
-                selectedCurrency = currency
             }
         }
     }

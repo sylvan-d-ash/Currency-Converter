@@ -33,7 +33,8 @@ class MainViewController: UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        presenter = MainPresenter(view: self, webservice: Webservice())
+        let interactor = MainInteractor()
+        presenter = MainPresenter(view: self, interactor: interactor, webservice: Webservice())
     }
 
     required init?(coder: NSCoder) {
@@ -154,7 +155,7 @@ extension MainViewController: MainViewProtocol {
             self.pickerView = pickerView
         }
 
-        pickerView?.show(currencies: presenter.currencies)
+        pickerView?.show(currencies: currencies)
     }
 
     func hidePickerView() {

@@ -14,12 +14,10 @@ enum ParseError: Error {
 }
 
 class MainInteractor {
-    weak var presenter: MainPresenter!
     private let webservice: Webservice
     private var currencies = [Currency]()
 
-    init(presenter: MainPresenter, webservice: Webservice = Webservice()) {
-        self.presenter = presenter
+    init(webservice: Webservice = Webservice()) {
         self.webservice = webservice
     }
 

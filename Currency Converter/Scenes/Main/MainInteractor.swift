@@ -63,6 +63,10 @@ private extension MainInteractor {
             currencies.append(currency)
         }
 
+        currencies.sort { (first, second) -> Bool in
+            first.name < second.name
+        }
+
         return currencies
     }
 

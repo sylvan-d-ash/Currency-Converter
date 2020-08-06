@@ -35,7 +35,7 @@ class MainViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         let interactor = MainInteractor()
-        presenter = MainPresenter(view: self, interactor: interactor, webservice: Webservice())
+        presenter = MainPresenter(view: self, interactor: interactor)
     }
 
     required init?(coder: NSCoder) {

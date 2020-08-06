@@ -136,6 +136,7 @@ extension MainViewController: MainViewProtocol {
         loadingView = nil
     }
 
+    // TODO: change this to a table view for ease of use
     func showPickerView(with currencies: [Currency]) {
         if pickerView == nil {
             let pickerView = CurrencyPickerView()

@@ -25,6 +25,7 @@
 		5EF4624624DC24AF0021D0A9 /* MainPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624524DC24AF0021D0A9 /* MainPresenterTests.swift */; };
 		5EF4624824DC24B80021D0A9 /* MainInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624724DC24B80021D0A9 /* MainInteractorTests.swift */; };
 		5EF4624B24DC28800021D0A9 /* MainViewSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624A24DC28800021D0A9 /* MainViewSpy.swift */; };
+		5EF4624D24DC299E0021D0A9 /* WebserviceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4624C24DC299E0021D0A9 /* WebserviceMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		5EF4624524DC24AF0021D0A9 /* MainPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenterTests.swift; sourceTree = "<group>"; };
 		5EF4624724DC24B80021D0A9 /* MainInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractorTests.swift; sourceTree = "<group>"; };
 		5EF4624A24DC28800021D0A9 /* MainViewSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewSpy.swift; sourceTree = "<group>"; };
+		5EF4624C24DC299E0021D0A9 /* WebserviceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebserviceMock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				5EF4624A24DC28800021D0A9 /* MainViewSpy.swift */,
+				5EF4624C24DC299E0021D0A9 /* WebserviceMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 			files = (
 				5EF4624B24DC28800021D0A9 /* MainViewSpy.swift in Sources */,
 				5E659BD024D976B3004BF636 /* Currency_ConverterTests.swift in Sources */,
+				5EF4624D24DC299E0021D0A9 /* WebserviceMock.swift in Sources */,
 				5EF4624824DC24B80021D0A9 /* MainInteractorTests.swift in Sources */,
 				5EF4624624DC24AF0021D0A9 /* MainPresenterTests.swift in Sources */,
 			);

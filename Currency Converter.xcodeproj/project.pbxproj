@@ -70,6 +70,67 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E31015624DC143500325376 /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				5E659BB824D976B1004BF636 /* AppDelegate.swift */,
+				5E659BBA24D976B1004BF636 /* SceneDelegate.swift */,
+			);
+			path = "App Delegate";
+			sourceTree = "<group>";
+		};
+		5E31015724DC145600325376 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5E659BC124D976B3004BF636 /* Assets.xcassets */,
+				5E659BC324D976B3004BF636 /* LaunchScreen.storyboard */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		5E31015824DC148000325376 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5E659BE024DABDCA004BF636 /* CurrencyPickerView.swift */,
+				5E659BDE24DAB5A1004BF636 /* LoadingView.swift */,
+				5E659BDC24DAAFA4004BF636 /* CurrencyCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5E31015924DC149800325376 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				5E659BE524DACB10004BF636 /* Currency.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		5E31015A24DC14B000325376 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				5E31015B24DC14BF00325376 /* Main */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		5E31015B24DC14BF00325376 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				5E659BDA24D976FE004BF636 /* MainViewController.swift */,
+				5E659BE924DADA93004BF636 /* MainPresenter.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		5E31015C24DC14CD00325376 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5E659BE724DAD20B004BF636 /* Webservice.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		5E659BAC24D976B1004BF636 = {
 			isa = PBXGroup;
 			children = (
@@ -91,19 +152,14 @@
 		5E659BB724D976B1004BF636 /* Currency Converter */ = {
 			isa = PBXGroup;
 			children = (
+				5E31015624DC143500325376 /* App Delegate */,
 				5E659BE224DABEE4004BF636 /* Extensions */,
-				5E659BB824D976B1004BF636 /* AppDelegate.swift */,
-				5E659BBA24D976B1004BF636 /* SceneDelegate.swift */,
-				5E659BC124D976B3004BF636 /* Assets.xcassets */,
-				5E659BC324D976B3004BF636 /* LaunchScreen.storyboard */,
+				5E31015924DC149800325376 /* Entities */,
+				5E31015C24DC14CD00325376 /* Services */,
+				5E31015A24DC14B000325376 /* Scenes */,
+				5E31015824DC148000325376 /* Views */,
+				5E31015724DC145600325376 /* Resources */,
 				5E659BC624D976B3004BF636 /* Info.plist */,
-				5E659BDA24D976FE004BF636 /* MainViewController.swift */,
-				5E659BE524DACB10004BF636 /* Currency.swift */,
-				5E659BE724DAD20B004BF636 /* Webservice.swift */,
-				5E659BE924DADA93004BF636 /* MainPresenter.swift */,
-				5E659BE024DABDCA004BF636 /* CurrencyPickerView.swift */,
-				5E659BDE24DAB5A1004BF636 /* LoadingView.swift */,
-				5E659BDC24DAAFA4004BF636 /* CurrencyCell.swift */,
 			);
 			path = "Currency Converter";
 			sourceTree = "<group>";

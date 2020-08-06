@@ -12,12 +12,13 @@ class MainPresenter {
     private weak var view: MainViewProtocol!
     private let webservice: Webservice
     private(set) var currencies = [Currency]()
-    var value: Double = 0
+    private var selectedCurrency: Currency?
+    private var shouldShowPickerView = false
+    private var value: Double = 0
     var numberOfItems: Int {
         guard value > 0 else { return 0 }
         return currencies.count
     }
-    private var selectedCurrency: Currency?
 
     init(view: MainViewProtocol, webservice: Webservice) {
         self.view = view
@@ -50,8 +51,22 @@ class MainPresenter {
         }
     }
 
+    func didTapShowPickerView() {
+        guard currencies.count > 0 else { return }
+
+        shouldShowPickerView = !shouldShowPickerView
+        if shouldShowPickerView {
+            view.showPickerView(with: currencies)
+        } else {
+            view.hidePickerView()
+        }
+    }
+
     func didSelect(currency: Currency) {
         selectedCurrency = currency
+        didTapShowPickerView()
+        view.reloadData()
+        view.updateSelectedCurrency(name: currency.code)
     }
 
     func valueDidChange(_ value: String?) {
@@ -78,7 +93,11 @@ private extension MainPresenter {
 
     func toggleLoadingIndicator(isShown: Bool) {
         DispatchQueue.main.async { [weak self] in
-            self?.view.toggleLoading(isLoading: isShown)
+            if isShown {
+                self?.view.showLoadingView()
+            } else {
+                self?.view.hideLoadingView()
+            }
         }
     }
 

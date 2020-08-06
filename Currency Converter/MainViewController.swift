@@ -13,8 +13,12 @@
 import UIKit
 
 protocol MainViewProtocol: AnyObject {
-    func toggleLoading(isLoading: Bool)
+    func showLoadingView()
+    func hideLoadingView()
     func reloadData()
+    func showPickerView(with currencies: [Currency])
+    func hidePickerView()
+    func updateSelectedCurrency(name: String)
 }
 
 class MainViewController: UIViewController {
@@ -24,7 +28,6 @@ class MainViewController: UIViewController {
     private weak var loadingView: LoadingView?
 
     private var pickerView: CurrencyPickerView?
-    private var shouldShowPickerview = false
 
     var presenter: MainPresenter!
 
@@ -41,6 +44,11 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         setupSubviews()
         presenter.viewDidLoad()
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(false)
     }
 }
 
@@ -72,7 +80,6 @@ private extension MainViewController {
         let headerView = UIView()
         container.addSubview(headerView)
 
-        currencyTextfield.delegate = self
         currencyTextfield.keyboardType = .decimalPad
         currencyTextfield.borderStyle = .roundedRect
         currencyTextfield.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -109,13 +116,7 @@ private extension MainViewController {
     }
 
     @objc func chooseCurrencyTapped() {
-        shouldShowPickerview = !shouldShowPickerview
-
-        if shouldShowPickerview {
-            showPickerView()
-        } else {
-            pickerView?.hide()
-        }
+        presenter.didTapShowPickerView()
     }
 
     @objc func textFieldDidChange() {
@@ -124,45 +125,16 @@ private extension MainViewController {
 }
 
 extension MainViewController: MainViewProtocol {
-    func toggleLoading(isLoading: Bool) {
-        if isLoading {
-            loadingView = LoadingView(self.view).show()
-        } else {
-            loadingView?.terminate()
-            loadingView = nil
-        }
+    func showLoadingView() {
+        loadingView = LoadingView(self.view).show()
     }
 
-    func reloadData() {
-        tableView.reloadData()
-    }
-}
-
-extension MainViewController: UITextFieldDelegate {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        view.endEditing(false)
+    func hideLoadingView() {
+        loadingView?.terminate()
+        loadingView = nil
     }
 
-    //
-}
-
-extension MainViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.numberOfItems
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(CurrencyCell.self)", for: indexPath) as? CurrencyCell else {
-            return UITableViewCell()
-        }
-        presenter.configure(cell, forRowAt: indexPath.row)
-        return cell
-    }
-}
-
-extension MainViewController: CurrencyPickerViewDelegate {
-    private func showPickerView() {
+    func showPickerView(with currencies: [Currency]) {
         if pickerView == nil {
             let pickerView = CurrencyPickerView()
             pickerView.delegate = self
@@ -182,10 +154,35 @@ extension MainViewController: CurrencyPickerViewDelegate {
         pickerView?.show(currencies: presenter.currencies)
     }
 
-    func didSelect(currency: Currency) {
-        shouldShowPickerview = false
-        currencyButton.setTitle("\(currency.code)", for: .normal)
-        presenter.didSelect(currency: currency)
+    func hidePickerView() {
+        pickerView?.hide()
+    }
+
+    func reloadData() {
         tableView.reloadData()
+    }
+
+    func updateSelectedCurrency(name: String) {
+        currencyButton.setTitle("\(name)", for: .normal)
+    }
+}
+
+extension MainViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return presenter.numberOfItems
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(CurrencyCell.self)", for: indexPath) as? CurrencyCell else {
+            return UITableViewCell()
+        }
+        presenter.configure(cell, forRowAt: indexPath.row)
+        return cell
+    }
+}
+
+extension MainViewController: CurrencyPickerViewDelegate {
+    func didSelect(currency: Currency) {
+        presenter.didSelect(currency: currency)
     }
 }
